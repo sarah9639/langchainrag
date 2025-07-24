@@ -13,6 +13,7 @@ from langchain.memory import ConversationSummaryBufferMemory
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from langchain_openai import OpenAIEmbeddings
+import logging
 from dotenv import load_dotenv
 import os
 import pickle
@@ -32,6 +33,7 @@ st.set_page_config(
 # 2. 환경 변수 및 로깅 설정
 # ─────────────────────────────────────────────────────────────────────────────
 load_dotenv()
+logging.langsmith("[Project] HR RAG 채팅봇")
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 3. 캐시 디렉토리 준비
