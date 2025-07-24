@@ -9,7 +9,6 @@ from langchain_core.runnables import RunnablePassthrough
 from langchain_core.output_parsers import StrOutputParser
 from langchain.memory import ConversationSummaryBufferMemory
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
-from langchain_upstage import UpstageEmbeddings, ChatUpstage
 from langchain_teddynote import logging
 from dotenv import load_dotenv
 import os
@@ -19,7 +18,7 @@ import yaml
 # ─────────────────────────────────────────────────────────────────────────────
 # 1. 환경 변수 및 로깅 설정
 # ─────────────────────────────────────────────────────────────────────────────
-# .env 파일에서 OPENAI_API_KEY, UPSTAGE_API_KEY 등 환경 변수를 불러옵니다.
+# .env 파일에서 OPENAI_API_KEY 등 환경 변수를 불러옵니다.
 load_dotenv()
 
 # LangSmith 로깅: 프로젝트 이름 지정 (로그 추적 시 사용)
@@ -265,14 +264,10 @@ def create_retriever():
         
         st.info(f"✅ 문서를 {len(split_docs)}개의 청크로 분할했습니다.")
         
-        # 3) 임베딩 생성 (Upstage 기본, OpenAI 대체)
-        upstage_api_key = os.getenv("UPSTAGE_API_KEY")
+        # 3) 임베딩 생성 (OpenAI)
         openai_api_key = os.getenv("OPENAI_API_KEY")
         
-        if upstage_api_key:
-            embeddings = UpstageEmbeddings(model="solar-embedding-1-large-query")
-            st.info("✅ Upstage 임베딩 (solar-embedding-1-large-query)을 사용합니다.")
-        elif openai_api_key:
+        if openai_api_key:
             embeddings = OpenAIEmbeddings()
             st.info("✅ OpenAI 임베딩을 사용합니다.")
         else:
