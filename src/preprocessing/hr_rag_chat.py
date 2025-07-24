@@ -13,7 +13,6 @@ from langchain.memory import ConversationSummaryBufferMemory
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from langchain_openai import OpenAIEmbeddings
-from langchain_upstage import UpstageEmbeddings
 from langchain_teddynote import logging
 from dotenv import load_dotenv
 import os
@@ -462,13 +461,10 @@ def create_retriever():
         split_docs = splitter.split_documents(documents)
 
         # 3) 임베딩 생성 (OpenAI 우선 사용)
-        upstage_api_key = os.getenv("UPSTAGE_API_KEY")
         openai_api_key = os.getenv("OPENAI_API_KEY")
 
         if openai_api_key:
             embeddings = OpenAIEmbeddings()
-        elif upstage_api_key:
-            embeddings = UpstageEmbeddings(model="solar-embedding-1-large-query")
         else:
             st.error("❌ API 키가 설정되지 않았습니다.")
             return None
